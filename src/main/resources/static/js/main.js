@@ -41,7 +41,7 @@ function connect(event) {
       usernamePage.classList.add("hidden");
       chatPage.classList.remove("hidden");
 
-      var socket = new SockJS("/websocket");
+      var socket = new SockJS("http://10.10.2.157:8080/websocket");
       stompClient = Stomp.over(socket);
 
       stompClient.connect({}, onConnected, onError);
@@ -55,6 +55,8 @@ function connect(event) {
 
 function onConnected() {
   // Subscribe to the Public Topic
+
+
   stompClient.subscribe("/topic/public", onMessageReceived);
 
   // Tell your username to the server
@@ -146,6 +148,10 @@ function getAvatarColor(messageSender) {
   var index = Math.abs(hash % colors.length);
   return colors[index];
 }
+
+ var stompClient = null;
+
+
 
 usernameForm.addEventListener("submit", connect, true);
 messageForm.addEventListener("submit", send, true);
